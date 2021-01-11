@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header>Add Product</nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="formGroup">
+          <div class="form-group">
+            <label class="label">Name</label>
+            <input class="mb5" type="text" formControlName="name" nbInput fullWidth placeholder="Name">
+          </div>
+          <div class="full-name-inputs mb5">
+            <div class="form-group">
+              <label class="label">Price</label>
+              <input type="number" formControlName="price" nbInput fullWidth placeholder="Price">
+            </div>
+            <div class="form-group">
+              <label class="label">SKU</label>
+              <input type="text" formControlName="sku" nbInput fullWidth placeholder="SKU">
+            </div>
+          </div><br>
+          <div class="image-holder mb5">
+            <div class="file-input">
+              <input hidden multiple id="input-file-id" (change)="onFileChoose($event)" type="file" accept=".png,.jpg" />
+              <label for="input-file-id" class="fake-btn" >Choose product image</label>
+            </div>
+            <div class="image-upload-preview">
+              <img class="preview-image" *ngFor="let img of oldSrc" [src]="img" alt="Preview" />
+              <img class="preview-image" *ngFor="let img of imageSrc" [src]="img" alt="Preview" />
+            </div>
+          </div>
+          <br>
+          <button type="button" nbButton [disabled]="!formGroup.valid" [status]="'primary'" (click)="add()">
+            Save
+          </button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+<!-- 
+  <div class="col-lg-6">
+
+    <nb-card>
+      <nb-card-header>Select</nb-card-header>
+      <nb-card-body>
+        <nb-select selected="1">
+          <nb-option value="1">Option 1</nb-option>
+          <nb-option value="2">Option 2</nb-option>
+        </nb-select>
+      </nb-card-body>
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>Validation States</nb-card-header>
+      <nb-card-body>
+        <input type="text" nbInput fullWidth status="info"  placeholder="Input with Info">
+        <input type="text" nbInput fullWidth status="success"  placeholder="Warning Input">
+        <input type="text" nbInput fullWidth status="warning"  placeholder="Danger Input">
+        <input type="text" nbInput fullWidth status="danger" placeholder="Danger Input">
+        <input type="text" nbInput fullWidth status="primary"  placeholder="Input with Primary">
+        <div class="validation-checkboxes">
+          <nb-checkbox status="success">Success Checkbox</nb-checkbox>
+          <nb-checkbox status="warning">Warning Checkbox</nb-checkbox>
+          <nb-checkbox status="danger">Danger Checkbox</nb-checkbox>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>Checkboxes & Radios</nb-card-header>
+      <nb-card-body class="checkbox-radio">
+        <div class="demo-items">
+          <nb-checkbox>Checkbox 1</nb-checkbox>
+          <nb-checkbox [value]="true">Checkbox 2</nb-checkbox>
+        </div>
+        <div class="demo-items">
+          <nb-radio-group [(value)]="radioGroupValue">
+            <nb-radio
+              [value]="'This is value 1'">
+              Radio 1
+            </nb-radio>
+            <nb-radio
+              [value]="'This is value 2'">
+              Radio 2
+            </nb-radio>
+            <nb-radio
+              [value]="'This is value 3'">
+              Radio 3
+            </nb-radio>
+          </nb-radio-group>
+        </div>
+        <div class="demo-items">
+          <nb-checkbox disabled>Disabled Checkbox</nb-checkbox>
+          <nb-radio-group disabled>
+            <nb-radio
+              [value]="'Disabled Value'">
+              Disabled Radio
+            </nb-radio>
+          </nb-radio-group>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div> -->
+</div>
