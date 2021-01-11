@@ -1,0 +1,5 @@
+admin-panel/dist
+admin-panel/node_modules
+server/public
+server/dist
+server/node_modules
