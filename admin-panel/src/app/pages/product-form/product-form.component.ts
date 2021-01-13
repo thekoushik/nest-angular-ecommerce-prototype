@@ -36,7 +36,7 @@ export class ProductFormComponent implements OnInit {
       console.log(res.data)
       if(res.status){
         this.formGroup.patchValue(res.data);
-        this.oldSrc=res.data.image_urls.map(m=>this.authService.api+m);
+        this.oldSrc=res.data.images.map(m=>this.authService.api+m.image_url);
       }else{
         this.toastr.show('Error occured','Error');
       }

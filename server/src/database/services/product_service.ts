@@ -1,36 +1,39 @@
 import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { Product, ProductDocument } from "../models/product";
+import { InjectRepository } from "@nestjs/typeorm";
+import { DeleteResult, InsertResult, Repository } from "typeorm";
+import { Product } from "../models/product.entity";
+import { Photo } from '../models/photo.entity';
 import { CreateProductDto } from "../product.dto";
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) {}
+  constructor(
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>,
+    @InjectRepository(Photo)
+    private photoRepository: Repository<Photo>
+  ) {}
 
-  create(dto:CreateProductDto,images=[]): Promise<Product> {
-    const created = new this.productModel({
-        ...dto,
-    });
+  async create(dto:CreateProductDto,images=[]): Promise<InsertResult> {
+    let newProduct = await this.productRepository.insert({...dto});
     if(images.length){
-        created.images=images;
+      this.photoRepository.insert(images.map(filename=>({product: newProduct.identifiers[0].id, filename})))
     }
-    return created.save();
+    return newProduct;
   }
   findOne(id):Promise<Product>{
-    return this.productModel.findById(id).exec();
+    return this.productRepository.findOne(id,{relations:['images']});
   }
   findAll(): Promise<Product[]> {
-    return this.productModel.find().exec();
+    return this.productRepository.find({relations:['images']});
   }
   update(id,data,images=[]){
-    let body={...data};
     if(images.length){
-      body['$push']={images};
+      this.photoRepository.insert(images.map(filename=>({product: id, filename})))
     }
-    return this.productModel.updateOne({_id:id},body);
+    return this.productRepository.update({id},{...data});
   }
-  remove(id):Promise<Product>{
-    return this.productModel.findOneAndDelete({_id:id}).exec();
+  remove(id):Promise<DeleteResult>{
+    return this.productRepository.delete({id:id});
   }
 }
